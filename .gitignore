@@ -1,0 +1,20 @@
+# Ignore home assistant 'controlled' directories
+.cloud
+.storage/
+blueprints/
+deps/
+custom_components/
+tts/
+
+# Ignore secrets file 
+secrets.yaml
+
+# Ignore non-configuration files
+.HA_VERSION
+home-assistant.log*
+home-assistant_v2.db*
+zigbee.db*
+
+# Ignore SSH keys and known_hosts
+.ssh/id_*
+.ssh/known_hosts

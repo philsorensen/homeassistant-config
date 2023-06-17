@@ -1,0 +1,30 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Setup the http server
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.0/24
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+sensor:
+  - platform: nws_alerts
+    zone_id: !secret nws_alerts_zone_id
+
+  - platform: weatheralerts
+    state: !secret weatheralerts_state
+    zone: !secret weatheralerts_zone
+    county: !secret weatheralerts_county

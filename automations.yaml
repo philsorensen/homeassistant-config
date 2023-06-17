@@ -1,0 +1,54 @@
+- id: '1685579831569'
+  alias: Office Remote
+  description: Automation for Smart Knob
+  trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_ieee: 70:ac:08:ff:fe:26:41:bf
+  action:
+  - variables:
+      command: '{{ trigger.event.data.command }}'
+      direction: '{% if (trigger.event.data.args[0] | default(0) | int) == 1 %} -1
+        {% else%} 1 {% endif %}'
+      hue: '{{ state_attr(''light.office_light_light_2'',''hs_color'')[0] }}'
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ command == ''toggle'' }}'
+      sequence:
+      - service: light.toggle
+        data: {}
+        target:
+          device_id: 6d794744223c35c593a3efa6eb3eccf4
+    - conditions:
+      - condition: template
+        value_template: '{{ command == ''step'' }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          brightness_step_pct: '{{ direction * 5 }}'
+        target:
+          device_id: 6d794744223c35c593a3efa6eb3eccf4
+    - conditions:
+      - condition: template
+        value_template: '{{ command == ''step_color_temp'' }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          hs_color:
+          - '{{ (hue + (direction * 15)) % 360 }}'
+          - 100
+        target:
+          device_id: 6d794744223c35c593a3efa6eb3eccf4
+    - conditions:
+      - condition: template
+        value_template: '{{ command == ''move_hue'' }}'
+      sequence:
+      - service: light.turn_on
+        data:
+          color_temp: 500
+        target:
+          device_id: 6d794744223c35c593a3efa6eb3eccf4
+  mode: queued
+  max: 10
