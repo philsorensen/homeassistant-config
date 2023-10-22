@@ -5,6 +5,7 @@ blueprints/
 deps/
 custom_components/
 tts/
+www/community/
 
 # Ignore secrets file 
 secrets.yaml
