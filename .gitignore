@@ -6,6 +6,7 @@ custom_components/
 deps/
 tts/
 www/community/
+zigbee2mqtt/
 
 # Ignore secrets file 
 secrets.yaml
